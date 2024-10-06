@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Notifier extends TimerTask {
-    private final TaskManager taskManager;
+    private final NoteManager noteManager;
 
-    public Notifier(TaskManager taskManager) {
-        this.taskManager = taskManager;
+    public Notifier(NoteManager noteManager) {
+        this.noteManager = noteManager;
     }
 
     @Override
     public void run() {
-        taskManager.get()
+        noteManager.getTasks()
                 .parallelStream()
                 .filter(task -> !task.isFinalized() && le(task.getExecutionDate(), LocalDateTime.now()))
                 .forEach(t -> {

@@ -10,7 +10,7 @@ public class PriorityRect extends VBox {
     private final Label priorityLabel;
     private final Pane priorityRect;
 
-    public PriorityRect(Task.Priority priority) {
+    public PriorityRect(Note.Priority priority) {
         setSpacing(10);
         setFillWidth(true);
         priorityLabel = new Label("Priority: " + priority.name().toLowerCase());
@@ -20,21 +20,21 @@ public class PriorityRect extends VBox {
         priorityRect.getStyleClass().add("task-card-" + priority.cssClass);
         setOnMouseClicked(e -> {
             priorityRect.getStyleClass().removeLast();
-            if (index >= Task.Priority.values().length)
+            if (index >= Note.Priority.values().length)
                 index = 0;
-            priorityRect.getStyleClass().add("task-card-" + Task.Priority.values()[index].cssClass);
-            priorityLabel.setText("Priority: " + Task.Priority.values()[index].name().toLowerCase());
+            priorityRect.getStyleClass().add("task-card-" + Note.Priority.values()[index].cssClass);
+            priorityLabel.setText("Priority: " + Note.Priority.values()[index].name().toLowerCase());
             index++;
         });
 
         getChildren().addAll(priorityLabel, priorityRect);
     }
 
-    public Task.Priority getPriority() {
-        return Task.Priority.values()[index-1];
+    public Note.Priority getPriority() {
+        return Note.Priority.values()[index-1];
     }
 
-    public void setPriority(Task.Priority priority) {
+    public void setPriority(Note.Priority priority) {
         priorityLabel.setText("Priority: " + priority.name().toLowerCase());
         priorityRect.getStyleClass().removeLast();
         priorityRect.getStyleClass().add("task-card-" + priority.cssClass);

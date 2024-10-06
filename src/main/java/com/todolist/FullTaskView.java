@@ -1,22 +1,14 @@
 package com.todolist;
 
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
 
-public class FullTaskView extends VBox {
-    private final TextField title;
+public class FullTaskView extends FullNoteView{
     private final DateTimePicker executionDate;
     private final Label finalized;
-    private final PriorityRect priorityRect;
-    private final TextArea content;
-    private final Task task;
 
-    public FullTaskView(MiniTaskView miniTaskView, Task task) {
-        this.task = task;
-        getStyleClass().add("task-card");
+    public FullTaskView(MiniTaskView miniNoteView, Task task) {
+        super(miniNoteView, task);
 
-        title = new TextField(task.getTitle());
         executionDate = new DateTimePicker(task.getExecutionDate());
         finalized = new Label("Finalized: " + (task.isFinalized() ? "yes" : "no"));
         finalized.setOnMouseClicked(e -> {
@@ -26,43 +18,27 @@ public class FullTaskView extends VBox {
                 finalized.setText(finalized.getText().replaceAll("no", "yes"));
             }
         });
-        priorityRect = new PriorityRect(task.getPriority());
-        content = new TextArea(task.getContent());
-        content.getStyleClass().add("task-card-content");
-        content.setWrapText(true);
 
-        Button backButton = new Button("←");
-        backButton.getStyleClass().add("task-card-button");
-        backButton.setOnAction(e -> App.scene.setRoot(App.mainScreen));
-        Button saveButton = new Button("Save changes");
-        saveButton.getStyleClass().add("task-card-button");
         saveButton.setOnAction(e -> {
             task.setExecutionDate(executionDate.getDateTime());
             task.setTitle(title.getText());
             task.setFinalized(finalized.getText().endsWith("yes"));
             task.setContent(content.getText());
             task.setPriority(priorityRect.getPriority());
-            miniTaskView.update();
+            miniNoteView.update();
             update();
         });
-        Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> {
-            App.scene.setRoot(App.mainScreen);
-            App.mainScreen.removeTask(task);
-            App.taskManager.remove(task);
-        });
-        deleteButton.getStyleClass().add("task-card-button");
-        HBox buttonPane = new HBox(backButton, saveButton, deleteButton);
-        buttonPane.getStyleClass().add("task-card-button-pane");
 
+        getChildren().clear();
         getChildren().addAll(buttonPane, title, new Label("Execution date:"), executionDate, finalized, priorityRect, content);
     }
 
+
+    @Override
     public void update() {
-        title.setText(task.getTitle());
-        executionDate.setDateTime(task.getExecutionDate());
-        finalized.setText("Finalized: " + (task.isFinalized() ? "yes" : "no"));
-        priorityRect.setPriority(task.getPriority());
-        content.setText(task.getContent());
+        super.update();
+        Task t = (Task) note;
+        executionDate.setDateTime(t.getExecutionDate());
+        finalized.setText("Finalized: " + (t.isFinalized() ? "yes" : "no"));
     }
 }

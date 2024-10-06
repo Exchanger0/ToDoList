@@ -8,23 +8,27 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.concurrent.ThreadLocalRandom;
-
+/*
+todo:
+ * Сделать фильтрацию
+ * Сделать форматирование текста как в word'е
+ * Сделать 2 типа: task (может быть установлена executionDate), note (обычная заметка без executionDate)
+ * Сделать сохранение задач на диске
+ * Сделать возможность импорта задач из директории
+ * Сделать фоновый поток notifier, который работает даже после закрытия приложения (в настройках можно будет убрать)
+ */
 public class App extends Application {
     public static Scene scene;
     public static MainScreen mainScreen;
-    public static final TaskManager taskManager = new TaskManager();
+    public static final NoteManager NOTE_MANAGER = new NoteManager();
 
     @Override
     public void start(Stage stage) {
         for (int i = 0; i < 10; i++) {
-            Task task = new Task("Task №"+i, "content", Task.Priority.values()[ThreadLocalRandom.current().nextInt(0, 3)], LocalDateTime.now().plusMinutes(5));
-            task.setExecutionDate(LocalDateTime.now().plusMinutes(i+1));
-            taskManager.add(task);
+            Task note = new Task("Task №"+i, "content", Note.Priority.values()[ThreadLocalRandom.current().nextInt(0, 3)], LocalDateTime.now().plusMinutes(5));
+            note.setExecutionDate(LocalDateTime.now().plusMinutes(i+1));
+            NOTE_MANAGER.add(note);
         }
-
-        Notifier notifier = new Notifier(taskManager);
-        Timer timer = new Timer(true);
-        timer.schedule(notifier, (60 - LocalTime.now().getSecond()) * 1000, 60_000);
 
         mainScreen = new MainScreen();
 
@@ -35,5 +39,9 @@ public class App extends Application {
         stage.setWidth(600);
         stage.setHeight(700);
         stage.show();
+
+        Notifier notifier = new Notifier(NOTE_MANAGER);
+        Timer timer = new Timer(true);
+        timer.schedule(notifier, (60 - LocalTime.now().getSecond()) * 1000, 60_000);
     }
 }
