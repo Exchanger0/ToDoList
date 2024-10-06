@@ -43,11 +43,13 @@ public class FullTaskView extends VBox {
             task.setContent(content.getText());
             task.setPriority(priorityRect.getPriority());
             miniTaskView.update();
+            update();
         });
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> {
             App.scene.setRoot(App.mainScreen);
-            App.removeTask(task);
+            App.mainScreen.removeTask(task);
+            App.taskManager.remove(task);
         });
         deleteButton.getStyleClass().add("task-card-button");
         HBox buttonPane = new HBox(backButton, saveButton, deleteButton);

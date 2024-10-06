@@ -14,7 +14,7 @@ public class MainScreen extends VBox {
     private final Map<Task, MiniTaskView> taskMiniTaskViewMap = new HashMap<>();
     private final VBox content = new VBox();
 
-    public MainScreen(List<Task> tasks) {
+    public MainScreen() {
         //Header
         Label title = new Label("ToDoList");
         title.getStyleClass().add("title");
@@ -31,7 +31,7 @@ public class MainScreen extends VBox {
         ScrollPane contentScroll = new ScrollPane(content);
         contentScroll.setFitToWidth(true);
         contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        for (Task task : tasks) {
+        for (Task task : App.taskManager.get()) {
             addTask(task);
         }
 
@@ -47,5 +47,9 @@ public class MainScreen extends VBox {
         MiniTaskView mtv = new MiniTaskView(task);
         taskMiniTaskViewMap.put(task, mtv);
         content.getChildren().add(mtv);
+    }
+
+    public void update(Task task) {
+        taskMiniTaskViewMap.get(task).update();
     }
 }

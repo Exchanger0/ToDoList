@@ -1,6 +1,8 @@
 package com.todolist;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Task {
     public enum Priority {
@@ -18,11 +20,13 @@ public class Task {
     private Priority priority;
     private boolean finalized;
 
-    public Task(String title, String content, Priority priority) {
+    public Task(String title, String content, Priority priority, LocalDateTime executionDate) {
         this.title = title;
         this.content = content;
         this.priority = priority;
-        this.executionDate = LocalDateTime.now();
+        this.executionDate = executionDate;
+        if (executionDate.isBefore(LocalDateTime.now()))
+            finalized = true;
     }
 
     public String getTitle() {
@@ -61,7 +65,24 @@ public class Task {
         return finalized;
     }
 
+    //изменять статус можно только пока executionDate > now
+    //если executionDate < now, то finalized=true всегда
     public void setFinalized(boolean finalized) {
-        this.finalized = finalized;
+        if (executionDate.isAfter(LocalDateTime.now()))
+            this.finalized = finalized;
+        else
+            this.finalized = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task task)) return false;
+        return Objects.equals(title, task.title) && Objects.equals(content, task.content) && Objects.equals(executionDate, task.executionDate) && priority == task.priority;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, content, executionDate, priority);
     }
 }

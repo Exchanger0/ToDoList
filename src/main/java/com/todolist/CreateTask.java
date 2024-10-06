@@ -24,9 +24,9 @@ public class CreateTask extends VBox {
         Button saveButton = new Button("Create");
         saveButton.getStyleClass().add("task-card-button");
         saveButton.setOnAction(e -> {
-            Task task = new Task(title.getText(), content.getText(), priorityRect.getPriority());
-            task.setExecutionDate(executionDate.getDateTime());
-            App.addTask(task);
+            Task task = new Task(title.getText(), content.getText(), priorityRect.getPriority(), executionDate.getDateTime());
+            App.taskManager.add(task);
+            App.mainScreen.addTask(task);
             App.scene.setRoot(App.mainScreen);
         });
         Button cancelButton = new Button("Cancel");

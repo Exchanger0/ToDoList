@@ -5,27 +5,28 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
+import java.util.Timer;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class App extends Application {
     public static Scene scene;
     public static MainScreen mainScreen;
-    public static final List<Task> tasks = new ArrayList<>();
+    public static final TaskManager taskManager = new TaskManager();
 
     @Override
     public void start(Stage stage) {
         for (int i = 0; i < 10; i++) {
-            Task task = new Task("Task №"+i, "content", Task.Priority.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
-            if (i % 2 == 0)
-                task.setFinalized(true);
-            task.setExecutionDate(LocalDateTime.of(2024, Month.SEPTEMBER,
-                    ThreadLocalRandom.current().nextInt(1, 30), 14, 50));
-            tasks.add(task);
+            Task task = new Task("Task №"+i, "content", Task.Priority.values()[ThreadLocalRandom.current().nextInt(0, 3)], LocalDateTime.now().plusMinutes(5));
+            task.setExecutionDate(LocalDateTime.now().plusMinutes(i+1));
+            taskManager.add(task);
         }
-        mainScreen = new MainScreen(tasks);
+
+        Notifier notifier = new Notifier(taskManager);
+        Timer timer = new Timer(true);
+        timer.schedule(notifier, (60 - LocalTime.now().getSecond()) * 1000, 60_000);
+
+        mainScreen = new MainScreen();
 
         scene = new Scene(mainScreen);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
@@ -34,15 +35,5 @@ public class App extends Application {
         stage.setWidth(600);
         stage.setHeight(700);
         stage.show();
-    }
-
-    public static void removeTask(Task task) {
-        tasks.remove(task);
-        mainScreen.removeTask(task);
-    }
-
-    public static void addTask(Task task) {
-        tasks.add(task);
-        mainScreen.addTask(task);
     }
 }
