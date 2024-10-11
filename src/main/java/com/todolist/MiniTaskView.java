@@ -29,4 +29,9 @@ public class MiniTaskView extends MiniNoteView{
     protected FullNoteView getFullView() {
         return new FullTaskView(this, (Task) note);
     }
+
+    @Override
+    public Task getNote() {
+        return (Task) super.getNote();
+    }
 }

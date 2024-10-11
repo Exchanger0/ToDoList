@@ -49,4 +49,8 @@ public class MiniNoteView extends VBox {
     protected FullNoteView getFullView() {
         return new FullNoteView(this, note);
     }
+
+    public Note getNote() {
+        return note;
+    }
 }
