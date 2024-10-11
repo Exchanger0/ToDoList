@@ -2,6 +2,8 @@ package com.todolist;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 
 import java.time.LocalDateTime;
@@ -24,7 +26,12 @@ public class Notifier extends TimerTask {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setHeaderText(t.getTitle());
-                        alert.setContentText(t.getContent());
+                        WebView webView = new WebView();
+                        webView.setDisable(true);
+                        WebEngine webEngine = webView.getEngine();
+                        webEngine.loadContent(t.getContent());
+                        alert.getDialogPane().setMaxSize(400, 400);
+                        alert.getDialogPane().setContent(webView);
                         alert.initModality(Modality.NONE);
                         alert.show();
                         App.mainScreen.update(t);

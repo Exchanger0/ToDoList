@@ -23,7 +23,7 @@ public class FullTaskView extends FullNoteView{
             task.setExecutionDate(executionDate.getDateTime());
             task.setTitle(title.getText());
             task.setFinalized(finalized.getText().endsWith("yes"));
-            task.setContent(content.getText());
+            task.setContent(content.getHtmlText());
             task.setPriority(priorityRect.getPriority());
             miniNoteView.update();
             update();

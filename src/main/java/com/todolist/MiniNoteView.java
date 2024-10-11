@@ -39,7 +39,7 @@ public class MiniNoteView extends VBox {
     }
 
     private void setMiniContentText() {
-        String content = note.getContent();
+        String content = note.getPlainContent();
         int idx = content.indexOf("\n");
         if (idx > 0)
             content = content.substring(0, idx);

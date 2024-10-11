@@ -3,11 +3,12 @@ package com.todolist;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 
 public class FullNoteView extends VBox {
     protected final TextField title;
     protected final PriorityRect priorityRect;
-    protected final TextArea content;
+    protected final HTMLEditor content;
     protected Button saveButton;
     protected HBox buttonPane;
     protected final Note note;
@@ -18,9 +19,9 @@ public class FullNoteView extends VBox {
 
         title = new TextField(note.getTitle());
         priorityRect = new PriorityRect(note.getPriority());
-        content = new TextArea(note.getContent());
+        content = new HTMLEditor();
+        content.setHtmlText(note.getContent());
         content.getStyleClass().add("task-card-content");
-        content.setWrapText(true);
 
         Button backButton = new Button("←");
         backButton.getStyleClass().add("task-card-button");
@@ -29,7 +30,7 @@ public class FullNoteView extends VBox {
         saveButton.getStyleClass().add("task-card-button");
         saveButton.setOnAction(e -> {
             note.setTitle(title.getText());
-            note.setContent(content.getText());
+            note.setContent(content.getHtmlText());
             note.setPriority(priorityRect.getPriority());
             miniNoteView.update();
             update();
@@ -50,6 +51,6 @@ public class FullNoteView extends VBox {
     public void update() {
         title.setText(note.getTitle());
         priorityRect.setPriority(note.getPriority());
-        content.setText(note.getContent());
+        content.setHtmlText(note.getContent());
     }
 }

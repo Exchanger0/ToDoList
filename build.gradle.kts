@@ -1,5 +1,3 @@
-import java.net.URI
-
 plugins {
     id("java")
     id("org.openjfx.javafxplugin") version "0.1.0"
@@ -15,9 +13,13 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("org.jsoup:jsoup:1.18.1")
+}
+
 javafx {
     version = "22.0.1"
-    modules = listOf("javafx.controls", "javafx.base", "javafx.fxml", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.base", "javafx.fxml", "javafx.graphics", "javafx.web")
 }
 
 tasks.withType<JavaCompile> {
