@@ -5,9 +5,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Note {
+public class Note implements Serializable {
     public enum Priority {
         HIGH("priority-high"), MEDIUM("priority-medium"), LOW("priority-low");
         public final String cssClass;

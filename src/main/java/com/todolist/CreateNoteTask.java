@@ -3,6 +3,7 @@ package com.todolist;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 
 import java.time.LocalDateTime;
 
@@ -15,10 +16,7 @@ public class CreateNoteTask extends VBox {
         title.setPromptText("Title");
         title.getStyleClass().add("task-main-info");
         PriorityRect priorityRect = new PriorityRect(Note.Priority.LOW);
-        TextArea content = new TextArea();
-        content.setPromptText("Content");
-        content.getStyleClass().add("task-card-content");
-        content.setWrapText(true);
+        HTMLEditor content = new HTMLEditor();
 
         Label exLabel = new Label("Execution date:");
         DateTimePicker executionDate = new DateTimePicker(LocalDateTime.now());
@@ -39,9 +37,9 @@ public class CreateNoteTask extends VBox {
         saveButton.setOnAction(e -> {
             Note note;
             if (isTask.isSelected())
-                note = new Task(title.getText(), content.getText(), priorityRect.getPriority(), executionDate.getDateTime());
+                note = new Task(title.getText(), content.getHtmlText(), priorityRect.getPriority(), executionDate.getDateTime());
             else
-                note = new Note(title.getText(), content.getText(), priorityRect.getPriority());
+                note = new Note(title.getText(), content.getHtmlText(), priorityRect.getPriority());
             App.NOTE_MANAGER.add(note);
             App.mainScreen.addNote(note);
             App.scene.setRoot(App.mainScreen);

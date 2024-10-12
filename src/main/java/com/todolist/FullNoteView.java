@@ -21,7 +21,6 @@ public class FullNoteView extends VBox {
         priorityRect = new PriorityRect(note.getPriority());
         content = new HTMLEditor();
         content.setHtmlText(note.getContent());
-        content.getStyleClass().add("task-card-content");
 
         Button backButton = new Button("←");
         backButton.getStyleClass().add("task-card-button");

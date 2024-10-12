@@ -1,7 +1,6 @@
 package com.todolist;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class Task extends Note {
     protected LocalDateTime executionDate;
