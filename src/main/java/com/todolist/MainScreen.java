@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -20,20 +21,25 @@ public class MainScreen extends VBox {
         Label title = new Label("ToDoList");
         title.getStyleClass().add("title");
 
-        Button addTaskButton = new Button("+");
+        ImageView plus = App.createIcon("/icons/plus.png");
+        Button addTaskButton = new Button();
         addTaskButton.setOnAction(e -> App.scene.setRoot(new CreateNoteTask()));
         addTaskButton.getStyleClass().add("header-button");
+        addTaskButton.setGraphic(plus);
 
-        Button sortButton = new Button("▼");
+        ImageView sort = App.createIcon("/icons/sort.png");
+        Button sortButton = new Button();
         sortButton.getStyleClass().add("header-button");
+        sortButton.setGraphic(sort);
         ContextMenu sortContext = new ContextMenu();
         sortButton.setOnMousePressed(e -> {
             if (e.isPrimaryButtonDown()) {
                 Bounds bounds = sortButton.localToScreen(sortButton.getBoundsInLocal());
-                sortContext.show(sortButton, bounds.getMaxX(), bounds.getMaxY());
+                sortContext.show(sortButton, bounds.getMaxX() - 40, bounds.getMaxY() - 40);
             }
         });
         MenuItem defaultSort = new MenuItem("Default");
+        defaultSort.setStyle("-fx-font-size: 15px");
         defaultSort.setOnAction(e -> FXCollections.sort(content.getChildren(), (o1, o2) -> {
             if (o1 instanceof MiniNoteView mnv1 && o2 instanceof MiniNoteView mnv2) {
                 return mnv1.getNote().getTitle().compareTo(mnv2.getNote().getTitle());
@@ -97,9 +103,12 @@ public class MainScreen extends VBox {
 
     private Menu createSortMenu(String name, Comparator<Node> comparator) {
         Menu menu = new Menu(name);
+        menu.setStyle("-fx-font-size: 15px");
         MenuItem ascending = new MenuItem("Ascending");
+        ascending.setStyle("-fx-font-size: 15px");
         ascending.setOnAction(e -> FXCollections.sort(content.getChildren(), comparator));
         MenuItem descending = new MenuItem("Descending");
+        descending.setStyle("-fx-font-size: 15px");
         descending.setOnAction(e -> FXCollections.sort(content.getChildren(), comparator.reversed()));
         menu.getItems().addAll(ascending, descending);
         return menu;

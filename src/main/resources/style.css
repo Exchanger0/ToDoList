@@ -7,7 +7,7 @@
 
 /* Верхняя панель (заголовок и кнопка добавления задачи) */
 .header {
-    -fx-background-color: #0078D7;
+    -fx-background-color: #1f9c76;
     -fx-padding: 15px;
     -fx-spacing: 10px;
     -fx-alignment: center-left;
@@ -23,16 +23,13 @@
 }
 
 .header-button {
-    -fx-background-color: #28a745;
-    -fx-text-fill: white;
+    -fx-background-color: transparent;
     -fx-padding: 10px 15px;
-    -fx-font-size: 18px;
     -fx-cursor: hand;
-    -fx-background-radius: 8px;
 }
 
-.header-button:hover {
-    -fx-background-color: #218838;
+.header-button: hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(89, 89, 89, 1), 15, 0, 0, 0);
 }
 
 /* Стили для мини карточки задачи */
@@ -81,23 +78,7 @@
     -fx-min-height: 10px;
 }
 
-.task-card-button {
-    -fx-background-color: #109c92;
-    -fx-text-fill: white;
-    -fx-padding: 10px 15px;
-    -fx-font-size: 15px;
-    -fx-cursor: hand;
-    -fx-background-radius: 8px;
-}
-
-.task-card-button-pane {
-    -fx-background-color: #b0f2ae;
-    -fx-spacing: 20px;
-    -fx-alignment: center-left;
-    -fx-padding: 10px;
-}
-
-/* Приоритеты задач */
+/* Приоритеты задач*/
 .priority-high {
     -fx-background-color: #ff4d4d;
     -fx-text-fill: white;

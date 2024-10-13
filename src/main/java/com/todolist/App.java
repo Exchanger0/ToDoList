@@ -2,6 +2,8 @@ package com.todolist;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,5 +50,10 @@ public class App extends Application {
         Notifier notifier = new Notifier(NOTE_MANAGER);
         Timer timer = new Timer(true);
         timer.schedule(notifier, (60 - LocalTime.now().getSecond()) * 1000, 60_000);
+    }
+
+    public static ImageView createIcon(String path) {
+        Image i = new Image(App.class.getResourceAsStream(path));
+        return new ImageView(i);
     }
 }

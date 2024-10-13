@@ -1,6 +1,7 @@
 package com.todolist;
 
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
@@ -22,11 +23,16 @@ public class FullNoteView extends VBox {
         content = new HTMLEditor();
         content.setHtmlText(note.getContent());
 
-        Button backButton = new Button("←");
-        backButton.getStyleClass().add("task-card-button");
+        ImageView back = App.createIcon("/icons/back.png");
+        Button backButton = new Button();
+        backButton.getStyleClass().add("header-button");
         backButton.setOnAction(e -> App.scene.setRoot(App.mainScreen));
-        saveButton = new Button("Save changes");
-        saveButton.getStyleClass().add("task-card-button");
+        backButton.setGraphic(back);
+
+        ImageView save = App.createIcon("/icons/save.png");
+        saveButton = new Button();
+        saveButton.setGraphic(save);
+        saveButton.getStyleClass().add("header-button");
         saveButton.setOnAction(e -> {
             note.setTitle(title.getText());
             note.setContent(content.getHtmlText());
@@ -34,15 +40,18 @@ public class FullNoteView extends VBox {
             miniNoteView.update();
             update();
         });
-        Button deleteButton = new Button("Delete");
+
+        ImageView delete = App.createIcon("/icons/delete.png");
+        Button deleteButton = new Button();
+        deleteButton.setGraphic(delete);
         deleteButton.setOnAction(e -> {
             App.scene.setRoot(App.mainScreen);
             App.mainScreen.removeNote(note);
             App.NOTE_MANAGER.remove(note);
         });
-        deleteButton.getStyleClass().add("task-card-button");
+        deleteButton.getStyleClass().add("header-button");
         buttonPane = new HBox(backButton, saveButton, deleteButton);
-        buttonPane.getStyleClass().add("task-card-button-pane");
+        buttonPane.getStyleClass().add("header");
 
         getChildren().addAll(buttonPane, title, priorityRect, content);
     }
